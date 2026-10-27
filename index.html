@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Engineering projects by Tirth Chaudhari: mechanical, electrical and embedded.">
+<title>Tirth Chaudhari Engineering</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Extra+Condensed:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: a drafting sheet. Projects are drawing sheets, each with an ISO-style title block. */
+:root {
+  --paper: #eef2f1;
+  --sheet: #f8faf9;
+  --ink: #16201f;
+  --ink-2: #4c5b59;
+  --line: #b9c6c3;
+  --grid: rgba(60, 110, 105, 0.09);
+  --accent: #1f5fd1;   /* drafting pencil blue */
+  --rev: #c2410c;      /* revision mark */
+  --display: "Saira Extra Condensed", "Arial Narrow", sans-serif;
+  --body: "IBM Plex Sans", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f1716; --sheet: #141e1d; --ink: #e3ecea; --ink-2: #93a5a2;
+    --line: #2d3d3b; --grid: rgba(120, 190, 180, 0.07); --accent: #6d9cf2; --rev: #f0814a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0f1716; --sheet: #141e1d; --ink: #e3ecea; --ink-2: #93a5a2;
+  --line: #2d3d3b; --grid: rgba(120, 190, 180, 0.07); --accent: #6d9cf2; --rev: #f0814a;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 24px 24px;
+  color: var(--ink);
+  font: 16px/1.6 var(--body);
+}
+.wrap {
+  max-width: 1120px; margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Header */
+header.top { padding-block: 20px; border-bottom: 1px solid var(--line); }
+header.top .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.mark { font: 600 13px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+nav { display: flex; gap: 20px; font: 500 13px var(--mono); text-transform: uppercase; letter-spacing: .06em; }
+nav a { color: var(--ink-2); text-decoration: none; }
+nav a:hover { color: var(--accent); }
+
+/* Hero */
+.hero { padding-block: 56px 40px; display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 40px; align-items: end; }
+.eyebrow { font: 500 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+h1 {
+  font: 800 clamp(3.2rem, 9vw, 6.4rem)/.88 var(--display);
+  text-transform: uppercase; margin: 12px 0 20px; text-wrap: balance; letter-spacing: .005em;
+}
+h1 .dim { color: var(--ink-2); }
+.lede { max-width: 54ch; color: var(--ink-2); margin: 0; font-size: 1.08rem; }
+.spec { border: 1.5px solid var(--ink); background: var(--sheet); font: 13px var(--mono); }
+.spec div { display: grid; grid-template-columns: 9ch 1fr; border-bottom: 1px solid var(--line); }
+.spec div:last-child { border-bottom: 0; }
+.spec span { padding: 8px 10px; }
+.spec span:first-child { color: var(--ink-2); border-right: 1px solid var(--line); text-transform: uppercase; font-size: 11px; letter-spacing: .06em; display: flex; align-items: center; }
+
+/* Section heads */
+.sec-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; padding-block: 32px 16px; border-top: 1.5px solid var(--ink); }
+h2 { font: 800 2.2rem/1 var(--display); text-transform: uppercase; margin: 0; letter-spacing: .01em; }
+.filters { display: flex; gap: 6px; flex-wrap: wrap; }
+.filters button {
+  font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: .06em;
+  padding: 7px 12px; background: var(--sheet); color: var(--ink-2);
+  border: 1px solid var(--line); cursor: pointer; border-radius: 0;
+}
+.filters button[aria-pressed="true"] { background: var(--ink); color: var(--sheet); border-color: var(--ink); }
+
+/* Project sheets */
+.sheets { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); gap: 24px; padding-bottom: 56px; }
+.sheet {
+  background: var(--sheet); border: 1.5px solid var(--ink);
+  display: grid; grid-template-rows: auto 1fr auto; position: relative;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.sheet:hover { transform: translate(-3px, -3px); box-shadow: 3px 3px 0 var(--ink); }
+.view { aspect-ratio: 16 / 10; max-width: 100%; border-bottom: 1px solid var(--line); position: relative; overflow: hidden; }
+.view svg { width: 100%; height: 100%; display: block; }
+.body { padding: 18px 18px 14px; display: grid; gap: 10px; align-content: start; }
+h3 { font: 800 1.65rem/1 var(--display); text-transform: uppercase; margin: 0; text-wrap: balance; }
+.body p { margin: 0; color: var(--ink-2); font-size: .95rem; }
+.tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.tags span { font: 11px var(--mono); padding: 3px 7px; border: 1px solid var(--line); color: var(--ink-2); }
+.result { font: 500 12.5px var(--mono); color: var(--ink); border-left: 2px solid var(--accent); padding-left: 10px; }
+
+.titleblock { display: grid; grid-template-columns: 1.3fr 1fr .6fr .8fr; border-top: 1.5px solid var(--ink); font-family: var(--mono); }
+.titleblock div { padding: 6px 8px; border-right: 1px solid var(--line); min-width: 0; }
+.titleblock div:last-child { border-right: 0; }
+.titleblock small { display: block; font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.titleblock b { font-weight: 500; font-size: 12px; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+.rev b { color: var(--rev); }
+.example-flag {
+  position: absolute; top: 10px; right: 10px; z-index: 1;
+  font: 500 10px var(--mono); letter-spacing: .1em; text-transform: uppercase;
+  color: var(--rev); border: 1px solid var(--rev); padding: 2px 6px; background: var(--sheet);
+}
+
+/* About + contact */
+.split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px; padding-bottom: 56px; }
+.split p { max-width: 62ch; color: var(--ink-2); margin: 0 0 14px; }
+.stack { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; border: 1.5px solid var(--ink); background: var(--sheet); }
+.stack li { padding: 10px 12px; border-bottom: 1px solid var(--line); font: 13px var(--mono); }
+.stack li:nth-child(odd) { border-right: 1px solid var(--line); }
+.stack li small { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-2); }
+.contact { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 8px; }
+.contact code { font: 500 15px var(--mono); padding: 10px 12px; border: 1.5px solid var(--ink); background: var(--sheet); user-select: all; }
+.btn { font: 500 12px var(--mono); text-transform: uppercase; letter-spacing: .06em; padding: 11px 14px; background: var(--accent); color: var(--sheet); border: 0; cursor: pointer; text-decoration: none; }
+.links { display: flex; gap: 18px; margin-top: 18px; font: 13px var(--mono); }
+
+footer { border-top: 1px solid var(--line); padding-block: 20px; font: 12px var(--mono); color: var(--ink-2); }
+
+@media (max-width: 760px) {
+  .hero, .split { grid-template-columns: 1fr; gap: 28px; }
+  .hero { padding-block: 36px 28px; }
+  nav { gap: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { .sheet { transition: none; } .sheet:hover { transform: none; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="mark">Tirth Chaudhari / Project Log</div>
+    <nav aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="wrap hero">
+    <div>
+      <div class="eyebrow">Mechanical · Electrical · Embedded</div>
+      <h1>Tirth Chaudhari<br><span class="dim">builds things</span></h1>
+      <p class="lede">I design, prototype and test hardware. This is a running log of the projects, with the numbers that came out of them and what I'd change next time.</p>
+    </div>
+    <div class="spec" aria-label="Quick facts">
+      <div><span>Based</span><span>Toronto, ON</span></div>
+      <div><span>Focus</span><span>Mechatronics, robotics</span></div>
+      <div><span>Status</span><span>Open to co-op / FT roles</span></div>
+      <div><span>Sheets</span><span id="count">6 projects</span></div>
+    </div>
+  </section>
+
+  <section id="work" class="wrap">
+    <div class="sec-head">
+      <h2>Drawing set</h2>
+      <div class="filters" role="group" aria-label="Filter by discipline">
+        <button type="button" id="f-all" data-f="all" aria-pressed="true">All</button>
+        <button type="button" id="f-mech" data-f="mech" aria-pressed="false">Mechanical</button>
+        <button type="button" id="f-elec" data-f="elec" aria-pressed="false">Electrical</button>
+        <button type="button" id="f-sw" data-f="sw" aria-pressed="false">Software</button>
+      </div>
+    </div>
+    <div class="sheets" id="sheets"></div>
+  </section>
+
+  <section id="about" class="wrap">
+    <div class="sec-head"><h2>About</h2></div>
+    <div class="split">
+      <div>
+        <p>Swap this for your story: what kind of engineering you do, what you're studying or where you work, and the problems you like most.</p>
+        <p>A good line to include is how you work. For example: I prototype early, measure everything, and write down what failed so the next revision is better.</p>
+      </div>
+      <ul class="stack" aria-label="Tools">
+        <li><small>CAD</small>SolidWorks, Fusion 360</li>
+        <li><small>PCB</small>KiCad</li>
+        <li><small>Firmware</small>C/C++, STM32, ESP32</li>
+        <li><small>Analysis</small>MATLAB, Python, FEA</li>
+        <li><small>Fab</small>3D print, CNC, laser</li>
+        <li><small>Test</small>Scope, DAQ, load cell</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="contact" class="wrap">
+    <div class="sec-head"><h2>Contact</h2></div>
+    <div style="padding-bottom:56px">
+      <p style="color:var(--ink-2);margin:0 0 6px">Best way to reach me:</p>
+      <div class="contact">
+        <code id="email">you@example.com</code>
+        <button class="btn" type="button" id="copy">Copy email</button>
+      </div>
+      <div class="links">
+        <a href="https://github.com/" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap">Sheet 1 of 1 · Rev A · All dimensions in mm unless noted</div></footer>
+
+<script>
+// Edit this list to add your own projects. "fig" picks the line drawing.
+const projects = [
+  { title: "6-DOF Desktop Arm", disc: "mech", fig: "arm", dwg: "TC-001", rev: "C", year: "2026", matl: "PLA / 6061",
+    desc: "Belt-driven arm with cycloidal reducers printed in-house. Inverse kinematics run on an ESP32.",
+    result: "±0.4 mm repeatability · 500 g payload", tags: ["SolidWorks", "Cycloidal drive", "IK"] },
+  { title: "BLDC Motor Driver", disc: "elec", fig: "pcb", dwg: "TC-002", rev: "B", year: "2026", matl: "FR-4 4L",
+    desc: "4-layer field-oriented control board for a 24 V gimbal motor, with current sensing on all three phases.",
+    result: "12 A continuous · 94% efficiency", tags: ["KiCad", "STM32G4", "FOC"] },
+  { title: "Self-Balancing Robot", disc: "sw", fig: "wave", dwg: "TC-003", rev: "A", year: "2025", matl: "Acrylic",
+    desc: "Cascaded PID with a complementary filter on IMU data. Tuned from logged step responses.",
+    result: "Recovers from 15° push in 0.8 s", tags: ["C++", "PID", "IMU"] },
+  { title: "Bike Crank FEA Study", disc: "mech", fig: "beam", dwg: "TC-004", rev: "B", year: "2025", matl: "7075-T6",
+    desc: "Topology-optimized crank arm checked against ISO 4210 fatigue loads, then machined and strain-gauged.",
+    result: "−31% mass · SF 2.1 at peak load", tags: ["ANSYS", "Topology opt.", "Strain gauge"] },
+  { title: "Bench Power Supply", disc: "elec", fig: "pcb", dwg: "TC-005", rev: "A", year: "2024", matl: "FR-4 2L",
+    desc: "Buck pre-regulator into a linear stage for low ripple, with a constant-current limit and a rotary encoder UI.",
+    result: "0–30 V · 3 A · 4 mVpp ripple", tags: ["LTspice", "Analog", "Thermal"] },
+  { title: "Test-Rig DAQ Dashboard", disc: "sw", fig: "wave", dwg: "TC-006", rev: "A", year: "2024", matl: "—",
+    desc: "Python logger and live plots for a load-cell rig, replacing a spreadsheet workflow for the lab.",
+    result: "1 kHz sampling · 3 sensors", tags: ["Python", "NI-DAQ", "Plotting"] }
+];
+
+const discName = { mech: "Mechanical", elec: "Electrical", sw: "Software" };
+
+// Simple line drawings in the drafting style, colored by theme tokens.
+function fig(kind) {
+  const s = 'stroke="var(--ink)" fill="none" stroke-width="1.5"';
+  const d = 'stroke="var(--accent)" fill="none" stroke-width="1"';
+  const t = 'fill="var(--accent)" font-family="IBM Plex Mono, monospace" font-size="9"';
+  const c = 'stroke="var(--ink-2)" stroke-width=".75" stroke-dasharray="8 3 2 3" fill="none"';
+  const art = {
+    arm: `<line x1="40" y1="160" x2="280" y2="160" ${c}/>
+      <rect x="60" y="138" width="60" height="22" ${s}/><circle cx="90" cy="130" r="10" ${s}/>
+      <path d="M90 130 L160 70 L230 95" ${s} stroke-width="6" stroke-linecap="round" opacity=".18"/>
+      <path d="M90 130 L160 70 L230 95" ${s}/><circle cx="160" cy="70" r="7" ${s}/><circle cx="230" cy="95" r="5" ${s}/>
+      <path d="M230 95 l12 -6 M230 95 l12 6" ${s}/>
+      <path d="M90 175 H160" ${d}/><path d="M90 170 v10 M160 170 v10" ${d}/><text x="113" y="190" ${t}>180</text>
+      <path d="M195 45 A40 40 0 0 1 215 70" ${d}/><text x="212" y="52" ${t}>±90°</text>`,
+    pcb: `<rect x="60" y="30" width="200" height="140" rx="4" ${s}/>
+      <circle cx="72" cy="42" r="4" ${s}/><circle cx="248" cy="42" r="4" ${s}/><circle cx="72" cy="158" r="4" ${s}/><circle cx="248" cy="158" r="4" ${s}/>
+      <rect x="135" y="75" width="50" height="50" ${s}/>
+      ${[0,1,2,3,4,5].map(i=>`<line x1="${139+i*8}" y1="75" x2="${139+i*8}" y2="68" ${s}/><line x1="${139+i*8}" y1="125" x2="${139+i*8}" y2="132" ${s}/>`).join("")}
+      <path d="M100 100 H135 M185 100 H225 V60 M160 132 V150 H100" ${d}/>
+      <rect x="85" y="92" width="15" height="16" ${s}/><rect x="225" y="50" width="16" height="10" ${s}/>
+      <path d="M60 185 H260" ${d}/><text x="148" y="196" ${t}>80.0</text>`,
+    wave: `<line x1="40" y1="100" x2="290" y2="100" stroke="var(--ink-2)" stroke-width=".75"/>
+      <line x1="40" y1="30" x2="40" y2="170" stroke="var(--ink-2)" stroke-width=".75"/>
+      <line x1="40" y1="55" x2="290" y2="55" ${c}/><text x="250" y="50" ${t}>setpoint</text>
+      <path d="M40 160 C70 160 80 30 110 40 S140 70 160 58 S195 52 215 56 S260 55 290 55" ${s}/>
+      <path d="M110 30 v20" ${d}/><text x="114" y="30" ${t}>overshoot</text>`,
+    beam: `<path d="M50 120 L90 80 L240 70 Q270 70 270 95 Q270 120 240 118 L95 125 Q60 135 50 120 Z" ${s}/>
+      <circle cx="78" cy="105" r="14" ${s}/><circle cx="245" cy="94" r="9" ${s}/>
+      <path d="M130 88 Q160 98 200 86 M130 113 Q165 104 200 112" ${s} opacity=".55"/>
+      <line x1="30" y1="105" x2="290" y2="94" ${c}/>
+      <path d="M245 40 V82" ${d} marker-end="url(#ah)"/><text x="250" y="48" ${t}>F = 1600 N</text>
+      <path d="M78 165 H245" ${d}/><path d="M78 160 v10 M245 160 v10" ${d}/><text x="150" y="182" ${t}>170</text>`
+  };
+  return `<svg viewBox="0 0 320 200" role="img" aria-label="Line drawing">
+    <defs><marker id="ah" viewBox="0 0 8 8" refX="4" refY="7" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L4 8 L8 0" fill="var(--accent)"/></marker></defs>${art[kind]}</svg>`;
+}
+
+function render(filter) {
+  const list = projects.filter(p => filter === "all" || p.disc === filter);
+  document.getElementById("sheets").innerHTML = list.map(p => `
+    <article class="sheet">
+      <span class="example-flag">Example</span>
+      <div class="view">${fig(p.fig)}</div>
+      <div class="body">
+        <h3>${p.title}</h3>
+        <p>${p.desc}</p>
+        <div class="result">${p.result}</div>
+        <div class="tags">${p.tags.map(t => `<span>${t}</span>`).join("")}</div>
+      </div>
+      <div class="titleblock">
+        <div><small>Dwg no.</small><b>${p.dwg}</b></div>
+        <div><small>Discipline</small><b>${discName[p.disc]}</b></div>
+        <div class="rev"><small>Rev</small><b>${p.rev}</b></div>
+        <div><small>Matl</small><b>${p.matl}</b></div>
+      </div>
+    </article>`).join("");
+  document.getElementById("count").textContent = `${projects.length} projects`;
+}
+
+document.querySelectorAll(".filters button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll(".filters button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  render(b.dataset.f);
+}));
+
+document.getElementById("copy").addEventListener("click", e => {
+  const btn = e.currentTarget, text = document.getElementById("email").textContent;
+  const done = () => { btn.textContent = "Copied"; setTimeout(() => btn.textContent = "Copy email", 1600); };
+  const fallback = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById("email"));
+    const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = "Selected, press Ctrl+C"; };
+  try { navigator.clipboard.writeText(text).then(done, fallback); } catch { fallback(); }
+});
+
+render("all");
+</script>
+</body>
+</html>
